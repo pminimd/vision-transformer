@@ -1,0 +1,5 @@
+weights
+weights_batchsize8
+pretrained
+runs
+__pycache__

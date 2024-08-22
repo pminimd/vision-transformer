@@ -15,7 +15,7 @@ def drop_path(x, drop_prob: float = 0., training: bool = False):
 
 class DropPath(nn.Module):
     def __init__(self, drop_prob=None):
-        super(DropPath, self).__init__()
+        super().__init__()
         self.drop_prob = drop_prob
     
     def forward(self, x):
@@ -53,7 +53,7 @@ class Attention(nn.Module):
                  qk_scale=None, 
                  attn_drop_ratio=0.,
                  proj_drop_ratio=0.):
-        super(Attention, self).__init__()
+        super().__init__()
         self.num_heads = num_heads
         head_dim = dim // num_heads
         self.scale = qk_scale or head_dim ** -0.5
@@ -115,7 +115,7 @@ class Block(nn.Module):
                  drop_path_ratio=0.,
                  act_layer=nn.GELU,
                  norm_layer=nn.LayerNorm):
-        super(Block, self).__init__()
+        super().__init__()
         self.norm1 = norm_layer(dim)
         self.attn = Attention(dim, 
                               num_heads=num_heads,
