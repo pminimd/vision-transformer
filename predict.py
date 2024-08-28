@@ -10,9 +10,9 @@ from model import vit_base_patch16_224_in21k as create_model
 import debugpy
 
 # setting debugpy
-debugpy.listen(("localhost", 5678))
-print("Waiting for debugger to attach...")
-debugpy.wait_for_client()
+# debugpy.listen(("localhost", 5678))
+# print("Waiting for debugger to attach...")
+# debugpy.wait_for_client()
 
 
 def main():
@@ -25,7 +25,7 @@ def main():
          transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])])
 
     # load image
-    img_path = "./images.jpg"
+    img_path = "./images/shelf.jpg"
     assert os.path.exists(img_path), "file: '{}' dose not exist.".format(img_path)
     img = Image.open(img_path)
     plt.imshow(img)
@@ -35,17 +35,17 @@ def main():
     img = torch.unsqueeze(img, dim=0)
 
     # read class_indict
-    # json_path = './class_indices.json'
-    # assert os.path.exists(json_path), "file: '{}' dose not exist.".format(json_path)
+    json_path = './class_indices.json'
+    assert os.path.exists(json_path), "file: '{}' dose not exist.".format(json_path)
 
-    # with open(json_path, "r") as f:
-        # class_indict = json.load(f)
+    with open(json_path, "r") as f:
+        class_indict = json.load(f)
 
     # create model
-    model = create_model(num_classes=200, has_logits=False).to(device)
+    model = create_model(num_classes=3, has_logits=False).to(device)
     # load model weights
-    # model_weight_path = "./weights/model-9.pth"
-    # model.load_state_dict(torch.load(model_weight_path, map_location=device))
+    model_weight_path = "./weights/model-39.pth"
+    model.load_state_dict(torch.load(model_weight_path, map_location=device))
     model.eval()
     with torch.no_grad():
         # predict class
@@ -53,12 +53,12 @@ def main():
         predict = torch.softmax(output, dim=0)
         predict_cla = torch.argmax(predict).numpy()
 
-    # print_res = "class: {}   prob: {:.3}".format(class_indict[str(predict_cla)],
-    #                                              predict[predict_cla].numpy())
-    # plt.title(print_res)
-    # for i in range(len(predict)):
-    #     print("class: {:10}   prob: {:.3}".format(class_indict[str(i)],
-    #                                               predict[i].numpy()))
+    print_res = "class: {}   prob: {:.3}".format(class_indict[str(predict_cla)],
+                                                 predict[predict_cla].numpy())
+    plt.title(print_res)
+    for i in range(len(predict)):
+        print("class: {:10}   prob: {:.3}".format(class_indict[str(i)],
+                                                  predict[i].numpy()))
     plt.show()
 
 
