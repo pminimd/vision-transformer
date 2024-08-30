@@ -7,4 +7,10 @@
 
 process the image to 224.224
 
-we set patchsize = 4, we have 56x56 patchs
+we set patchsize = 16, we have 14x14 patchs
+
+## Reference
+
+https://github.com/hila-chefer/RobustViT
+
+https://debuggercafe.com/fine-tuning-vision-transformer/
